@@ -28,6 +28,16 @@ class User extends Authenticatable
     ];
 
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user){
+           $user->activation_token=str_random(30);
+        });
+
+    }
+
     public function gravatar($size='100')
     {
 
