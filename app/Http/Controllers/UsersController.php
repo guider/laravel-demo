@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller {
     public function __construct()
@@ -28,7 +29,10 @@ class UsersController extends Controller {
 		return view('users.create');
 	}
 	public function show(User $user) {
-		return view('users.show', compact('user'));
+
+        $statuses=$user->statuses()->orderBy('created_at','desc')->paginate(30);
+
+		return view('users.show', compact('user','statuses'));
 	}
 
 	public function store(Request $request) {
@@ -85,5 +89,10 @@ class UsersController extends Controller {
         session()->flash('success','删除成功');
         return back();
     }
+
+
+
+
+
 }
 
